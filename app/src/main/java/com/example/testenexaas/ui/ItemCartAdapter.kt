@@ -9,11 +9,9 @@ import com.example.testenexaas.model.Item
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_recycler_view.view.*
 
-class ItemCartAdapter(var itemList: MutableList<Item>) :
+class ItemCartAdapter(var itemList: MutableList<Item>, val listener: ClickAdapter) :
 
     RecyclerView.Adapter<ItemCartAdapter.ViewHolder>() {
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_recycler_view, parent, false);
@@ -25,8 +23,12 @@ class ItemCartAdapter(var itemList: MutableList<Item>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie = itemList[position]
-        holder.onBind(movie)
+        val item = itemList[position]
+        holder.onBind(item)
+
+        holder.itemView.setOnClickListener {
+            listener.onItemClicked(item)
+        }
     }
 
     fun updateList(newList: MutableList<Item>) {
@@ -38,8 +40,8 @@ class ItemCartAdapter(var itemList: MutableList<Item>) :
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun onBind(item: Item) {
             Picasso.get().load(item.image_url).into(itemView.imageItemView)
-            itemView.nameDetail.text = item.name
-            itemView.availabilityDetail.text = item.stock.toString()
+            itemView.nameItemView.text = item.name
+            itemView.availabilityItemView.text = item.stock.toString()
             itemView.priceItemView.text = item.price.toString()
         }
     }

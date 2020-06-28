@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp">
 
     <ImageView
         android:id="@+id/imageItemView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,26 +19,26 @@
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <TextView
-        android:id="@+id/nameDetail"
+        android:id="@+id/nameItemView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:textSize="18dp"
+        android:textSize="20dp"
         android:textColor="#000"
         app:layout_constraintStart_toEndOf="@+id/imageItemView"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Pencil" />
 
     <TextView
-        android:id="@+id/availabilityDetail"
+        android:id="@+id/availabilityItemView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
-        android:textSize="14dp"
+        android:layout_marginTop="6dp"
+        android:textSize="16dp"
         app:layout_constraintStart_toEndOf="@+id/imageItemView"
-        app:layout_constraintTop_toBottomOf="@+id/nameDetail"
+        app:layout_constraintTop_toBottomOf="@+id/nameItemView"
         tools:text="in stock" />
 
     <TextView
@@ -49,7 +49,7 @@
         android:layout_marginEnd="24dp"
         tools:text="1.50"
         android:textColor="#000"
-        android:textSize="18dp"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

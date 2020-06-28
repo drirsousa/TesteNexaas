@@ -1,5 +1,7 @@
 package com.example.testenexaas.model
 
+import java.io.Serializable
+
 data class Item(
     val name: String,
     val quantity: Int,
@@ -8,4 +10,5 @@ data class Item(
     val price: Double,
     val tax: Double,
     val shipping: Double,
-    val description: String)
+    val description: String
+) : Serializable

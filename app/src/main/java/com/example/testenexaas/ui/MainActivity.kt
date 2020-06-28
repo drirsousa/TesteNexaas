@@ -1,5 +1,6 @@
 package com.example.testenexaas.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -11,14 +12,14 @@ import com.example.testenexaas.viewmodel.CartViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_total_price.*
 
-class MainActivity() : AppCompatActivity() {
+class MainActivity() : AppCompatActivity(), ClickAdapter {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val list = mutableListOf<Item>()
-        val adapter = ItemCartAdapter(list)
+        val adapter = ItemCartAdapter(list, this)
         val viewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
 
         recyclerView.adapter = adapter
@@ -52,5 +53,11 @@ class MainActivity() : AppCompatActivity() {
             taxItem.text = taxTotal.toString()
             txtItemsQuantity.text = resources.getString(R.string.items_quantity, itemsQuantity.toString())
         })
+    }
+
+    override fun onItemClicked(item: Item) {
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("item", item)
+        startActivity(intent)
     }
 }
