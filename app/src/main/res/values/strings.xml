@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TesteNexaas</string>
+
+    <string name="items_quantity"> %s Items in your cart </string>
 </resources>

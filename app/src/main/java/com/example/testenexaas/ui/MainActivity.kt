@@ -7,12 +7,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.testenexaas.R
 import com.example.testenexaas.model.Item
-import com.example.testenexaas.ui.adapter.ItemCartAdapter
 import com.example.testenexaas.viewmodel.CartViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_total_price.*
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity() : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +27,30 @@ class MainActivity : AppCompatActivity() {
         viewModel.getAllMovies()
         viewModel.itemListResult.observe(this, Observer {
             adapter.updateList(it as MutableList<Item>)
+        })
+
+        viewModel.itemListResult.observe(this, Observer {
+            var item = it as MutableList<Item>
+            var subtotal = 0.0
+            var total = 0.0
+            var shippingTotal = 0.0
+            var taxTotal = 0.0
+            var itemsQuantity = 0
+
+            for( i in item) {
+                subtotal += i.price
+                shippingTotal += i.shipping
+                taxTotal += i.tax
+                itemsQuantity += i.quantity
+            }
+
+            total = subtotal + shippingTotal + taxTotal
+
+            subtotalItem.text = subtotal.toString()
+            totalItem.text = total.toString()
+            shippingItem.text = shippingTotal.toString()
+            taxItem.text = taxTotal.toString()
+            txtItemsQuantity.text = resources.getString(R.string.items_quantity, itemsQuantity.toString())
         })
     }
 }

@@ -1,4 +1,4 @@
-package com.example.testenexaas.ui.adapter
+package com.example.testenexaas.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -38,8 +38,8 @@ class ItemCartAdapter(var itemList: MutableList<Item>) :
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun onBind(item: Item) {
             Picasso.get().load(item.image_url).into(itemView.imageItemView)
-            itemView.nameItemView.text = item.name
-            itemView.availabilityItemView.text = item.stock.toString()
+            itemView.nameDetail.text = item.name
+            itemView.availabilityDetail.text = item.stock.toString()
             itemView.priceItemView.text = item.price.toString()
         }
     }
