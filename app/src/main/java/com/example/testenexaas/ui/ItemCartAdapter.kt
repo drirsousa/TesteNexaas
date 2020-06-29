@@ -13,6 +13,8 @@ class ItemCartAdapter(var itemList: MutableList<Item>, val listener: ClickAdapte
 
     RecyclerView.Adapter<ItemCartAdapter.ViewHolder>() {
 
+    var positionItem: Int = -1
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_recycler_view, parent, false);
         return ViewHolder(view)
@@ -23,11 +25,12 @@ class ItemCartAdapter(var itemList: MutableList<Item>, val listener: ClickAdapte
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        positionItem = position
         val item = itemList[position]
         holder.onBind(item)
 
         holder.itemView.setOnClickListener {
-            listener.onItemClicked(item)
+            listener.onItemClicked(item, positionItem)
         }
     }
 

@@ -14,12 +14,17 @@ import io.reactivex.schedulers.Schedulers
 class CartViewModel(private val repository: Repository) : ViewModel() {
 
     private val itemList: MutableLiveData<List<Item>> = MutableLiveData()
-    val itemListResult: LiveData<List<Item>> = itemList
+    val itemListResult: MutableLiveData<List<Item>> = itemList
+
+    private val loading: MutableLiveData<Boolean> = MutableLiveData()
+    val loadingResult: LiveData<Boolean> = loading
 
     fun getAllMovies() {
         repository.getItems()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { loading.value = true }
+            .doAfterTerminate { loading.value = false }
             .subscribe({
                 itemList.value = it
             }, { throwable ->
