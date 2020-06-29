@@ -1,6 +1,7 @@
 package com.example.testenexaas.ui
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import com.example.testenexaas.R
 import com.example.testenexaas.model.Item
@@ -12,6 +13,8 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        setSupportActionBar(toolbar_detail)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val item = intent.getSerializableExtra("item") as Item
 
@@ -22,5 +25,10 @@ class DetailActivity : AppCompatActivity() {
             descriptionDetail.text = item.description
             priceDetail.text = item.price.toString()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_detail, menu)
+        return true
     }
 }

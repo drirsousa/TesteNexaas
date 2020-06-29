@@ -2,10 +2,11 @@ package com.example.testenexaas.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testenexaas.R
 import com.example.testenexaas.model.Item
 import com.example.testenexaas.viewmodel.CartViewModel
@@ -14,35 +15,45 @@ import kotlinx.android.synthetic.main.item_total_price.*
 
 class MainActivity() : AppCompatActivity(), ClickAdapter {
 
+    private lateinit var viewModel: CartViewModel
+    private val factory = CartViewModel.Factory()
+    val list = mutableListOf<Item>()
+    val adapter = ItemCartAdapter(list, this)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val list = mutableListOf<Item>()
-        val adapter = ItemCartAdapter(list, this)
-        val viewModel = ViewModelProviders.of(this).get(CartViewModel::class.java)
-
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = GridLayoutManager(this, 1)
+        setSupportActionBar(toolbar)
+        initViews()
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
         viewModel.getAllMovies()
         viewModel.itemListResult.observe(this, Observer {
             adapter.updateList(it as MutableList<Item>)
         })
+        bindViews()
+    }
 
+    fun initViews(){
+        viewModel = ViewModelProviders.of(this, factory).get(CartViewModel::class.java)
+        recyclerView.adapter = adapter
+    }
+
+    fun bindViews(){
         viewModel.itemListResult.observe(this, Observer {
-            var item = it as MutableList<Item>
+            var items = it as MutableList<Item>
             var subtotal = 0.0
-            var total = 0.0
+            var total : Double
             var shippingTotal = 0.0
             var taxTotal = 0.0
             var itemsQuantity = 0
 
-            for( i in item) {
-                subtotal += i.price
-                shippingTotal += i.shipping
-                taxTotal += i.tax
-                itemsQuantity += i.quantity
+            for( item in items) {
+                subtotal += item.price
+                shippingTotal += item.shipping
+                taxTotal += item.tax
+                itemsQuantity += item.quantity
             }
 
             total = subtotal + shippingTotal + taxTotal
@@ -59,5 +70,10 @@ class MainActivity() : AppCompatActivity(), ClickAdapter {
         val intent = Intent(this, DetailActivity::class.java)
         intent.putExtra("item", item)
         startActivity(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
     }
 }
