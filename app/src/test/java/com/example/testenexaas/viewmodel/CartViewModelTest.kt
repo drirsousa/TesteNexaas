@@ -41,20 +41,6 @@ class CartViewModelTest {
         verifyNoMoreInteractions(repositoryMock, listItemsMock)
     }
 
-/*    @Test
-    fun onInit_loadProductsByCategory_success() {
-
-        val viewModel = instantiateViewModel()
-       // val mockedList = List<Item>()
-
-       // every { repository.getItems() } returns mockedList
-
-        viewModel.getAllMovies()
-
-        //verify { repository.getItems() }
-        //verify { onDataLoadedObserver.onChanged(mockedList) }
-    }*/
-
     @Test
     fun test_getAllMovies_WhenSuccess() {
         //Given
