@@ -23,18 +23,31 @@ class CartViewModel(private val repository: Repository) : ViewModel() {
         repository.getItems()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { loading.value = true }
-            .doAfterTerminate { loading.value = false }
+            .doOnSubscribe { setLoading(true) }
+            .doAfterTerminate { setLoading(false) }
             .subscribe({
-                itemList.value = it
+                setItemList(it)
             }, { throwable ->
-                Log.i("LOG", "erro" + throwable.message)
+                Throwable(throwable)
+                logError(throwable.message)
             })
     }
+
+    fun setItemList(it: List<Item>?) {
+        itemList.value = it
+    }
+
+    fun setLoading(value: Boolean) {
+        loading.value = value
+    }
+
+    fun logError(message: String?) {
+        Log.i("LOG", "erro $message")
+    }
+
     class Factory: ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return CartViewModel(ItemRepository()) as T
         }
     }
-
 }
